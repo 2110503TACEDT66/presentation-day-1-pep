@@ -1,57 +1,41 @@
-const mongoose = require(`mongoose`);
+const mongoose = require(mongoose);
 
-const HospitalSchema = new mongoose.Schema({
+const CampgroundSchema = new mongoose.Schema({
     name : {
         type: String,
-        required :[true , `Please add a naame`],
+        required :[true, 'Please add a name'],
         unique: true,
         trim:true,
-        maxlength:[50,`Name can not be more than 50 characters`] 
+        maxlength:[50, 'Name can not be more than 50 characters'] 
     },
     address:{ 
         type: String,
-        required: [true,`Please add an address`]
+        required: [true, 'Please add an address']
     },
-    district:{
+    telephoneNumber:{
         type: String,
-        required: [true,`Please add a district`]
+        required: [true, 'Please add a telephone number']
     },
-    province:{
-        type: String,
-        required: [true,`Please add a province`]
-    },
-    postalcode:{
-        type: String,
-        required: [true,`Please add a postalcode`],
-        maxlength: [5,`Postal Code can not be more than 50 digits`]
-    },
-    tel:{
-        type:String
-    },
-    region:{
-        type: String,
-        required:  [true,`Please a region`]
-    },
-},{
+},
+{
     toJSON: {virtuals: true},
     toObject: {virtuals: true}
-});
-
-
+}
+);
 
 // Reverse populate with virtuals
-HospitalSchema.virtual('appointments', {
-    ref: 'Appointment',
+CampgroundSchema.virtual('bookings', {
+    ref: 'Booking',
     localField: '_id',
-    foreignField: 'hospital',
+    foreignField: 'campground',
     justOne: false
 });
 
-// Cascade delete appointments when a hospital is deleted
-HospitalSchema.pre('deleteOne', {document: true, query:false}, async function(next){
-    console.log(`Appointments being removed from hospital ${this._id}`);
-    await this.model('Appointment').deleteMany({hospital: this._id});
+// Cascade delete bookings when a campground is deleted
+CampgroundSchema.pre('deleteOne', {document: true, query:false}, async function(next){
+    console.log(`Bookings being removed from campground ${this._id}`);
+    await this.model('Booking').deleteMany({campground: this._id});
     next();
 });
 
-module.exports= mongoose.model(`Hospital`,HospitalSchema);
+module.exports= mongoose.model(Campground,CampgroundSchema);
