@@ -1,4 +1,4 @@
-const mongoose = require(mongoose);
+const mongoose = require('mongoose');
 
 const CampgroundSchema = new mongoose.Schema({
     name : {
@@ -38,4 +38,4 @@ CampgroundSchema.pre('deleteOne', {document: true, query:false}, async function(
     next();
 });
 
-module.exports= mongoose.model(Campground,CampgroundSchema);
+module.exports= mongoose.model('Campground',CampgroundSchema);
