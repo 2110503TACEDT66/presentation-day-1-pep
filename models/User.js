@@ -7,6 +7,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add a name']
     },
+    telephoneNumber: {
+        type: String,
+        required: [true, 'Please add a telephone number']
+    },
     email: {
         type: String,
         required: [true, 'Please add an email'],
@@ -16,20 +20,20 @@ const UserSchema = new mongoose.Schema({
             'Please add a valid email'
         ]
     },
-    role: {
-        type: String,
-        enum: ['user', 'admin'],
-        default: 'user'
-    },
     password: {
         type: String,
         required: [true, 'Please add a password'],
         minlength: 6,
         select: false
     },
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
+    },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
-    createAt: {
+    createdAt: {
         type: Date,
         default: Date.now
     }

@@ -20,29 +20,21 @@ const sendTokenResponse = (user, statusCode, res) => {
     });
 }
 
-// @desc    Register user
+// @desc    Register
 // @route   POST /api/v1/auth/register
 // @access  Public
-exports.register = (req, res, next) => {
-    res.status(200).json({
-        success: true
-    });
-}
-
 exports.register = async (req, res, next) => {
     try {
-        const {name, email, password, role} = req.body;
+        const {name, telephoneNumber, email, password, role} = req.body;
         
         // Create user
         const user = await User.create({
             name,
+            telephoneNumber,
             email,
             password,
             role
         });
-
-        // const token = user.getSignedJwtToken();
-        // res.status(200).json({success: true, token});
 
         sendTokenResponse(user, 200, res);
     }
@@ -52,7 +44,7 @@ exports.register = async (req, res, next) => {
     }
 }
 
-// @desc    Login user
+// @desc    Login
 // @route   POST /api/v1/auth/login
 // @access  Public
 exports.login = async (req, res, next) => {
@@ -76,10 +68,6 @@ exports.login = async (req, res, next) => {
                 msg: 'Invalid credentials'
             });
         }
-        
-        // Create token
-        // const token = user.getSignedJwtToken();
-        // res.status(200).json({success: true, token});
 
         sendTokenResponse(user, 200, res);
     }
@@ -92,8 +80,7 @@ exports.login = async (req, res, next) => {
     
 }
 
-// At the end of file
-// @desc    Get current Logged in user
+// @desc    Get Logged in User with Token
 // @route   POST /api/v1/auth/me
 // @access  Private
 exports.getMe = async(req, res, next) => {
@@ -104,7 +91,7 @@ exports.getMe = async(req, res, next) => {
     })
 }
 
-// @desc    Log user out / clear cookie
+// @desc    Logout
 // @route   GET /api/v1/auth/logout
 // @access  Private
 exports.logout = async(req, res, next) => {
@@ -118,3 +105,4 @@ exports.logout = async(req, res, next) => {
         data: {}
     });
 }
+
